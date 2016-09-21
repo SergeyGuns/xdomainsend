@@ -1,0 +1,94 @@
+
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title></title>
+ </head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+  <form action="http://10.100.10.109:3000/?">
+    First name:<br>
+    <input type="text" name="firstname" value="Mickey">
+    <br>
+    Last name:<br>
+    <input type="text" name="lastname" value="Mouse">
+    <br><br>
+    <input width="50" height="50" type="radio" name="gender" value="male" checked> Male<br>
+    <input type="radio" name="gender" value="female"> Female<br>
+    <input type="radio" name="gender" value="other"> Other<br>
+    <textarea name="message" rows="10" cols="30">The cat was playing in the garden.</textarea>
+    <input list="browsers" name='browsers'>
+    <datalist id="browsers">
+      <option value="Internet Explorer">
+      <option value="Firefox">
+      <option value="Chrome">
+      <option value="Opera">
+      <option value="Safari">
+    </datalist> 
+  </form>
+  <button>
+    save
+  </button>
+  <button>
+    send
+  </button>
+  <script type="text/javascript">
+    var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
+    var btn = document.querySelector('button')
+    var xhr = new XHR();
+    xhr.onload=function () { postCallback(xhr); };
+    var json = {
+      title: "Конференция",
+      date: "сегодня"
+    };
+    var obj = {
+
+    }
+     // {"title":"Конференция","date":"сегодня"}
+
+
+    let saveDataOnLocalStorage = ()=> {
+      let time = Date.now();
+      let data = {};
+      $("form").serializeArray().map(function(x){data[x.name] = x.value;});
+      data.time = time
+      let str = JSON.stringify(data);
+      localStorage.setItem(''+time, str)
+      btn.removeEventListener('click' , saveDataOnLocalStorage)
+      btn.style.opacity = '.5'
+      setTimeout(()=>{
+        btn.addEventListener('click', saveDataOnLocalStorage);
+        btn.style.opacity = '1'
+      },5000)
+    }
+    btn.addEventListener('click', saveDataOnLocalStorage);
+      // xhr.open('GET', 'http://localhost:3000/?'+, false);
+      // xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+      // xhr.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:3000/");
+      // xhr.send();
+
+
+    xhr.onreadystatechange = function()
+    {
+        if (request.readyState == 4 && request.status == 200)
+        {
+            console.log('ok'); // Another callback here
+        }
+    }
+
+    function postCallback(xmlhttp) {
+      if (xmlhttp.status==200) {
+          delete json.title;
+      } else {
+        console.log('fail ' + xmlhttp.status)
+      }
+    }
+
+  </script>
+  
+  
+
+</body>
+
+

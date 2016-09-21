@@ -1,0 +1,11 @@
+node_modules/
+bower_components/
+builds/
+.idea/
+.sublime-project
+.sublime-workspace
+.psd
+.zip
+.DS_Store
+npm-debug.log
+gulpfile.js
